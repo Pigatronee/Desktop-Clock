@@ -1,1 +1,5 @@
+
+# File types
 *.exe
+*clock-win32-x64
+*node_modules
