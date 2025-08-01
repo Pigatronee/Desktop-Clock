@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="style.css" />
+  <title>Desktop Clock</title>
+</head>
+<body>
+  <div id="drag-container">
+  <div id="clock">--:--:--</div>
+  </div>
+ <script>
+  function updateClock() {
+    const now = new Date();
+    const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    document.getElementById('clock').textContent = time;
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  // Enable interaction on mouse down (start drag)
+  document.getElementById('drag-container').addEventListener('mousedown', () => {
+    window.electronAPI.send('clock:enableInteraction');
+  });
+
+  // Disable interaction on mouse up (end drag)
+  document.addEventListener('mouseup', () => {
+    window.electronAPI.send('clock:resetInteraction');
+  });
+</script>
+
+
+</body>
+</html>
