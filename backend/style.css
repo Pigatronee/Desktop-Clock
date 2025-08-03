@@ -1,9 +1,9 @@
 html, body {
   /*overflow: visible;*/
   background: transparent;
-  font-family: 'Segoe UI', sans-serif;
   user-select: none;
   text-align: center;
+  font-family: "Playwrite HU", cursive;
 }
 
 #drag-container {

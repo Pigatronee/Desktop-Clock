@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playwrite+HU:wght@100..400&display=swap" rel="stylesheet">
+  
   <title>Desktop Clock</title>
 </head>
 <body>
@@ -17,19 +21,31 @@
     const now = new Date();
     const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
     document.getElementById('clock').textContent = time;
-  }
+  };
   setInterval(updateClock, 1000);
   updateClock();
 
   function updateDay(){
     const now = new Date();
     const day = now.getDay();
-    let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-    let dayName = days[day]
-    document.getElementById("date-day").textContent = dayName
+    let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    let dayName = days[day];
+    document.getElementById("date-day").textContent = dayName;
     
-  }
-  updateDay()
+  };
+
+  function updateMonthAndMonthNumber(){
+    const now = new Date();
+    const month = now.getMonth();
+    const day = now.getDate();
+    let months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    let monthName = months[month];
+    document.getElementById("date-month").textContent = monthName + " " + day;
+
+  };
+
+  updateDay();
+  updateMonthAndMonthNumber();
 
   // Enable interaction on mouse down (start drag)
   document.getElementById('drag-container').addEventListener('mousedown', () => {
