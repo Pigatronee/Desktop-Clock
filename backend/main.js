@@ -28,8 +28,8 @@ function createWindow () {
   const state = loadWindowState();
 
   win = new BrowserWindow({
-    width: 300,
-    height: 100,
+    width: 1000,
+    height: 300,
     x: state.x,
     y: state.y,
     transparent: true,
