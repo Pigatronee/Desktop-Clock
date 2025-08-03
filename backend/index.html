@@ -21,6 +21,45 @@
   setInterval(updateClock, 1000);
   updateClock();
 
+  function updateDay(){
+    const now = new Date();
+    const day = now.getDay();
+    let dayName = ""
+    switch (day){
+
+      case 0:
+        dayName = "Monday"
+
+      case 1:
+        dayName = "Sunday"
+        break;
+
+      case 2:
+        dayName = "Tuesday"
+        break;
+
+      case 3:
+        dayName = "Wednesday"
+        break;
+
+      case 4:
+        dayName = "Thursday"
+        break;
+
+      case 5:
+        dayName = "Friday"
+        break;
+
+      case 6:
+        dayName = "Saturday"
+        break;
+
+    }
+    document.getElementById("date-day").textContent = dayName
+    
+  }
+  updateDay()
+
   // Enable interaction on mouse down (start drag)
   document.getElementById('drag-container').addEventListener('mousedown', () => {
     window.electronAPI.send('clock:enableInteraction');
