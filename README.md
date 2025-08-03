@@ -16,4 +16,7 @@ step 2:
 Make sure you have nodeJS installed on your machine and then run `npm install`
 
 step 3:
+Run the command `npm install electron`
+
+step 4:
 to run the project open cmd in backend and run: `npm start`
