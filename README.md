@@ -1,6 +1,6 @@
 ## How to install the application
 ### Instructions:
-Just extract the rar, 7zip or zip file and run clock.exe.
+Just extract the rar, 7zip or zip file and run clock.exe In one of the releases.
 
 ### Tips:
 It's reccomended to add it to shell startup so it runs at start.
