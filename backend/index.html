@@ -24,37 +24,8 @@
   function updateDay(){
     const now = new Date();
     const day = now.getDay();
-    let dayName = ""
-    switch (day){
-
-      case 0:
-        dayName = "Monday"
-
-      case 1:
-        dayName = "Sunday"
-        break;
-
-      case 2:
-        dayName = "Tuesday"
-        break;
-
-      case 3:
-        dayName = "Wednesday"
-        break;
-
-      case 4:
-        dayName = "Thursday"
-        break;
-
-      case 5:
-        dayName = "Friday"
-        break;
-
-      case 6:
-        dayName = "Saturday"
-        break;
-
-    }
+    let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    let dayName = days[day]
     document.getElementById("date-day").textContent = dayName
     
   }
