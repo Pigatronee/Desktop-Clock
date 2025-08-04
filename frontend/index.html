@@ -27,6 +27,17 @@
     }
   }
 
+  // Manage widgets
+  const { ipcRenderer } = require("electron");
+
+  const dateAndTimeWidget = document.getElementById("dateAndTimeWidget");
+
+  dateAndTimeWidget.addEventListener("click", () => {
+    ipcRenderer.send("spawn-widget", {
+      type: "dateAndTime"
+    });
+  });
+
   displaySideBySideImages();
 </script>
 </html>

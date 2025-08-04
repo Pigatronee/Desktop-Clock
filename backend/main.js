@@ -10,6 +10,10 @@ function createMainWindow(){
     title: "Piga desktop widget manager!",
     width: isDev ? 1000 : 500,
     height: 600,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    }
   });
 
   // open devtools if in dev environment
@@ -20,6 +24,15 @@ function createMainWindow(){
 
   mainWindow.loadFile(path.join(__dirname, "../frontend/index.html"));
 }
+
+
+// widget handling
+ipcMain.on("spawn-widget", (event, {type}) => {
+  if (type === "dateAndTime") {
+    console.log("date and time")
+  }
+})
+
 
 app.whenReady().then(() => {
   createMainWindow()
@@ -37,30 +50,3 @@ app.on("window-all-closed", () => {
   }
 });
 
-// Handle IPC from manager to spawn a widget
-ipcMain.on("spawn-widget", (event, { type, x, y }) => {
-  const widgetPath = {
-    "dateAndTime": path.join(__dirname, "../frontend/widgets/dateAndTime.html"),
-    // Add more widget mappings here
-  }[type];
-
-  if (!widgetPath) return;
-
-  const widgetWindow = new BrowserWindow({
-    width: 300,
-    height: 150,
-    x: x - 150, // center under mouse
-    y: y - 75,
-    frame: false,
-    transparent: true,
-    alwaysOnTop: true,
-    resizable: false,
-    skipTaskbar: true,
-    webPreferences: {
-      contextIsolation: false,
-      nodeIntegration: true,
-    }
-  });
-
-  widgetWindow.loadFile(widgetPath);
-});
