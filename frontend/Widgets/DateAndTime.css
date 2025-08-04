@@ -1,0 +1,34 @@
+html, body {
+  /*overflow: visible;*/
+  background: transparent;
+  user-select: none;
+  text-align: center;
+  font-family: "Playwrite HU", cursive;
+}
+
+#drag-container {
+  -webkit-app-region: drag;
+  background: transparent;
+  user-select: none;
+}
+
+#clock {
+  color: white;
+  font-size: 48px;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
+
+#date-day {
+  color: white;
+  font-size: 48px;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
+
+#date-month {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
