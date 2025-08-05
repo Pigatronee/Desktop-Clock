@@ -4,6 +4,7 @@ const fs = require("fs");
 const { finished } = require("stream");
 const { error } = require("console");
 const { errorMonitor } = require("events");
+const { json } = require("stream/consumers");
  
 
 const isDev = process.env.NODE_ENV !== "production";
@@ -64,8 +65,21 @@ function createClockWindow(){
 ipcMain.on("spawn-widget", (event, {type}) => {
   if (type === "dateAndTime") {
     createClockWindow()
+    loadData();
   }
 });
+
+// Load data function
+const loadData = () => {
+  const finished = (error) => {
+    if(error){
+      console.error("New error: ", error)
+      return;
+    }
+  };
+
+  console.log(fs.readFile("window-state.json", "utf8", finished))
+};
 
 // Save data function
 const saveData = (saveFile) => {
@@ -74,8 +88,12 @@ const saveData = (saveFile) => {
       console.error("New error found: ", error)
       return;
     }
-  }
+  };
+  // TODO: Make this a better structure for handling each widgets position
+  JSON.stringify(saveFile)
   fs.writeFile("window-state.json", saveFile, finished)
+  console.log("savefile is: ", saveFile)
+  console.log("SAVINGGGGG THIS: "+fs.writeFile("window-state.json", saveFile, finished))
 };
 
 app.whenReady().then(() => {
