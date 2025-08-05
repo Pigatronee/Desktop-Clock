@@ -6,6 +6,10 @@ const SaveFileLocation = path.join(__dirname, "../backend/window-state.json")
 const isDev = process.env.NODE_ENV !== "production";
 const isMac = process.platform === "darwin";
 
+let WidgetsInUse = {
+  "clock": true
+}
+
 function createMainWindow(){
   const mainWindow = new BrowserWindow({
     title: "Piga desktop widget manager!",
@@ -102,6 +106,12 @@ app.whenReady().then(() => {
   app.on("activate", () => {
     createMainWindow()
   });
+
+  // Load the widgets that have previously been turned on:
+  if (WidgetsInUse["clock"]){
+    createClockWindow();
+  }
+
 });
 
 // if OS is a mac, then term the app if all windows are closed
