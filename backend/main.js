@@ -71,14 +71,20 @@ ipcMain.on("spawn-widget", (event, {type}) => {
 
 // Load data function
 const loadData = () => {
-  const finished = (error) => {
+  const finished = (error, data) => {
     if(error){
       console.error("New error: ", error)
       return;
     }
+
+    // find and display json data
+    jsonData = JSON.parse(data);
+    console.log("file contents are: ", jsonData)
+
   };
 
-  console.log(fs.readFile("window-state.json", "utf8", finished))
+  fs.readFile("window-state.json", "utf8", finished)
+  
 };
 
 // Save data function
@@ -91,9 +97,9 @@ const saveData = (saveFile) => {
   };
   // TODO: Make this a better structure for handling each widgets position
   JSON.stringify(saveFile)
+  console.log("SAVING DATA")
   fs.writeFile("window-state.json", saveFile, finished)
   console.log("savefile is: ", saveFile)
-  console.log("SAVINGGGGG THIS: "+fs.writeFile("window-state.json", saveFile, finished))
 };
 
 app.whenReady().then(() => {
