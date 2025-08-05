@@ -56,7 +56,7 @@ function createClockWindow(){
 
       // save window position data as a string
       const JSONWindowPosData = JSON.stringify(windowPosition)
-      ////saveData(JSONWindowPosData);
+      saveData(JSONWindowPosData);
 
     })
   };
@@ -75,8 +75,7 @@ const saveData = (saveFile) => {
       return;
     }
   }
-  fs.writeFile(path.join(__dirname, "/backend/window-state.json", saveFile, finished))
-  console.log("POO POO POO",JSON.stringify(saveFile, undefined, 4))
+  fs.writeFile("window-state.json", saveFile, finished)
 };
 
 app.whenReady().then(() => {
