@@ -59,8 +59,6 @@ function createClockWindow(){
       // save window position data as a string
       saveWidgetPosition("clock", windowPosition);
       saveWidgetState("clock", true);
-      // Save that this window has been closed
-      saveWidgetState("clock", false);
     })
   };
 
@@ -68,6 +66,7 @@ function createClockWindow(){
 ipcMain.on("spawn-widget", (event, {type}) => {
   if (type === "dateAndTime") {
     createClockWindow();
+    saveWidgetState("clock", true);
   }
 });
 
