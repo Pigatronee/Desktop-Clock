@@ -32,3 +32,21 @@ html, body {
   font-weight: bold;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
 }
+
+.button-container {
+  width: 100px;
+  height: 100px;
+  background-color: rgba(0, 0, 255, 0.2); /* light blue */
+  outline: 2px solid red;
+  position: relative;
+  pointer-events: auto; /* ensure it's interactable */
+}
+
+.hover-button {
+  display: none;
+  -webkit-app-region: no-drag;
+  color: red;
+}
+.button-container:hover .hover-button {
+  display: block;
+}

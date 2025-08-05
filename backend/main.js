@@ -33,8 +33,8 @@ function createClockWindow(){
   const windowPos = getWidgetPosition("clock", [100, 100]);
   const clockWindow = new BrowserWindow({
     
-      width: 1000,
-      height: 300,
+      width: 300,
+      height: 600,
       x: windowPos[0],
       y: windowPos[1],
       transparent: true,
