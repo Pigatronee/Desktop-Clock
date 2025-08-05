@@ -1,6 +1,10 @@
 const path = require("path");
 const { app, ipcMain, BrowserWindow} = require("electron");
-
+const fs = require("fs");
+const { finished } = require("stream");
+const { error } = require("console");
+const { errorMonitor } = require("events");
+ 
 
 const isDev = process.env.NODE_ENV !== "production";
 const isMac = process.platform === "darwin";
@@ -44,17 +48,36 @@ function createClockWindow(){
   });
     clockWindow.loadFile(path.join(__dirname, "../frontend/Widgets/dateAndTime.html")); //dateAndTime
     console.log("Attenmpting to create window from html file")
+    clockWindow.on("close", () => {
+      // get window position when closing
+      const windowPosition = clockWindow.getPosition()
 
+      console.log("Position of the window was: ", windowPosition)
 
-};
+      // save window position data as a string
+      const JSONWindowPosData = JSON.stringify(windowPosition)
+      ////saveData(JSONWindowPosData);
 
+    })
+  };
 // widget handling
 ipcMain.on("spawn-widget", (event, {type}) => {
   if (type === "dateAndTime") {
     createClockWindow()
   }
-})
+});
 
+// Save data function
+const saveData = (saveFile) => {
+  const finished = (error) =>{
+    if (error){
+      console.error("New error found: ", error)
+      return;
+    }
+  }
+  fs.writeFile(path.join(__dirname, "/backend/window-state.json", saveFile, finished))
+  console.log("POO POO POO",JSON.stringify(saveFile, undefined, 4))
+};
 
 app.whenReady().then(() => {
   createMainWindow()
