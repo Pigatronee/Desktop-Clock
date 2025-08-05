@@ -7,7 +7,7 @@ const isDev = process.env.NODE_ENV !== "production";
 const isMac = process.platform === "darwin";
 
 let WidgetsInUse = {
-  "clock": true
+  "clock": false
 }
 
 function createMainWindow(){
@@ -52,14 +52,18 @@ function createClockWindow(){
 
   });
     clockWindow.loadFile(path.join(__dirname, "../frontend/Widgets/dateAndTime.html")); //dateAndTime
-    console.log("Attenmpting to create window from html file")
+
     clockWindow.on("close", () => {
       // get window position when closing
       const windowPosition = clockWindow.getPosition()
       // save window position data as a string
       saveWidgetPosition("clock", windowPosition);
+      saveWidgetState("clock", true);
+      // Save that this window has been closed
+      saveWidgetState("clock", false);
     })
   };
+
 // widget handling
 ipcMain.on("spawn-widget", (event, {type}) => {
   if (type === "dateAndTime") {
@@ -89,14 +93,28 @@ const saveData = (position) => {
 };
 
 const saveWidgetPosition = (widgetName, position) =>{
-  const allPositionData = loadData();
-  allPositionData[widgetName] = position;
-  saveData(allPositionData);
+  const alldata = loadData();
+  alldata[widgetName] = position;
+  saveData(alldata);
 };
 
+const saveWidgetState = (widgetName, state) => {
+  const alldata = loadData();
+  alldata[widgetName] = {
+    ...alldata[widgetName],
+    inuse: state
+  };
+  saveData(alldata);
+}
+
 const getWidgetPosition = (widgetname, defaultPosition = [0,0]) => {
-  const allPositionData = loadData();
-  return allPositionData[widgetname] || defaultPosition;
+  const alldata = loadData();
+  return alldata[widgetname] || defaultPosition;
+}
+
+const isWidgetInUse = (widgetName) => {
+  const alldata = loadData();
+  return alldata[widgetName]?.inuse === true;
 }
 
 app.whenReady().then(() => {
@@ -108,7 +126,7 @@ app.whenReady().then(() => {
   });
 
   // Load the widgets that have previously been turned on:
-  if (WidgetsInUse["clock"]){
+  if (isWidgetInUse("clock")) {
     createClockWindow();
   }
 
