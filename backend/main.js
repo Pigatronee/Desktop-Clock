@@ -11,11 +11,10 @@ function createMainWindow(){
     width: isDev ? 1000 : 500,
     height: 600,
     webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
-    }
-  });
-
+        nodeIntegration: true,
+        contextIsolation: false,
+      }
+    });
   // open devtools if in dev environment
 
   if (isDev) {
@@ -23,13 +22,36 @@ function createMainWindow(){
   };
 
   mainWindow.loadFile(path.join(__dirname, "../frontend/index.html"));
-}
+};
 
+function createClockWindow(){
+  const clockWindow = new BrowserWindow({
+      width: 1000,
+      height: 300,
+      transparent: true,
+       frame: false,
+       titleBarStyle: 'hidden',
+       alwaysOnTop: false,
+       resizable: false,
+       hasShadow: false,
+       skipTaskbar: true,
+       webPreferences: {
+         contextIsolation: true,
+         nodeIntegration: false,
+         enableRemoteModule: false
+       }
+
+  });
+    clockWindow.loadFile(path.join(__dirname, "../frontend/Widgets/dateAndTime.html")); //dateAndTime
+    console.log("Attenmpting to create window from html file")
+
+
+};
 
 // widget handling
 ipcMain.on("spawn-widget", (event, {type}) => {
   if (type === "dateAndTime") {
-    console.log("date and time")
+    createClockWindow()
   }
 })
 
