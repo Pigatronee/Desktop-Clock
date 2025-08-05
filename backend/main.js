@@ -1,11 +1,7 @@
 const path = require("path");
 const { app, ipcMain, BrowserWindow} = require("electron");
 const fs = require("fs");
-const { finished } = require("stream");
-const { error } = require("console");
-const { errorMonitor } = require("events");
-const { json } = require("stream/consumers");
- 
+const SaveFileLocation = path.join(__dirname, "../backend/window-state.json")
 
 const isDev = process.env.NODE_ENV !== "production";
 const isMac = process.platform === "darwin";
@@ -30,9 +26,13 @@ function createMainWindow(){
 };
 
 function createClockWindow(){
+  const windowPos = getWidgetPosition("clock", [100, 100]);
   const clockWindow = new BrowserWindow({
+    
       width: 1000,
       height: 300,
+      x: windowPos[0],
+      y: windowPos[1],
       transparent: true,
        frame: false,
        titleBarStyle: 'hidden',
@@ -52,55 +52,48 @@ function createClockWindow(){
     clockWindow.on("close", () => {
       // get window position when closing
       const windowPosition = clockWindow.getPosition()
-
-      console.log("Position of the window was: ", windowPosition)
-
       // save window position data as a string
-      const JSONWindowPosData = JSON.stringify(windowPosition)
-      saveData(JSONWindowPosData);
-
+      saveWidgetPosition("clock", windowPosition);
     })
   };
 // widget handling
 ipcMain.on("spawn-widget", (event, {type}) => {
   if (type === "dateAndTime") {
-    createClockWindow()
-    loadData();
+    createClockWindow();
   }
 });
 
-// Load data function
 const loadData = () => {
-  const finished = (error, data) => {
-    if(error){
-      console.error("New error: ", error)
-      return;
-    }
-
-    // find and display json data
-    jsonData = JSON.parse(data);
-    console.log("file contents are: ", jsonData)
-
-  };
-
-  fs.readFile("window-state.json", "utf8", finished)
-  
+  try {
+    console.log("Loading data from", SaveFileLocation);
+    const data = fs.readFileSync(SaveFileLocation, "utf8");
+    console.log("Loaded data:", data);
+    return JSON.parse(data);
+  } catch (error) {
+    console.log("Load error or file not found:", error.message);
+    return {};
+  }
 };
 
-// Save data function
-const saveData = (saveFile) => {
-  const finished = (error) =>{
-    if (error){
-      console.error("New error found: ", error)
-      return;
-    }
-  };
-  // TODO: Make this a better structure for handling each widgets position
-  JSON.stringify(saveFile)
-  console.log("SAVING DATA")
-  fs.writeFile("window-state.json", saveFile, finished)
-  console.log("savefile is: ", saveFile)
+const saveData = (position) => {
+  try {
+    console.log("Saving data to", SaveFileLocation);
+    fs.writeFileSync(SaveFileLocation, JSON.stringify(position));
+  } catch (error) {
+    console.error("Error saving data:", error);
+  }
 };
+
+const saveWidgetPosition = (widgetName, position) =>{
+  const allPositionData = loadData();
+  allPositionData[widgetName] = position;
+  saveData(allPositionData);
+};
+
+const getWidgetPosition = (widgetname, defaultPosition = [0,0]) => {
+  const allPositionData = loadData();
+  return allPositionData[widgetname] || defaultPosition;
+}
 
 app.whenReady().then(() => {
   createMainWindow()
