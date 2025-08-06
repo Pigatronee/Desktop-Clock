@@ -46,6 +46,7 @@ html, body {
   position: absolute;
   outline: 2px solid red;
   pointer-events: auto;
+  -webkit-app-region: no-drag;
 }
 
 .hover-button {
