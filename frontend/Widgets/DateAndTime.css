@@ -33,20 +33,30 @@ html, body {
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
 }
 
+.button-container,
+.hover-button {
+  -webkit-app-region: no-drag; /* allow pointer events */
+}
+
 .button-container {
-  width: 100px;
-  height: 100px;
-  background-color: rgba(0, 0, 255, 0.2); /* light blue */
+  top: 10px;
+  left: 10px;
+  width: calc(100vw - 20px);
+  height: calc(100vh - 20px);
+  position: absolute;
   outline: 2px solid red;
-  position: relative;
-  pointer-events: auto; /* ensure it's interactable */
+  pointer-events: auto;
 }
 
 .hover-button {
   display: none;
-  -webkit-app-region: no-drag;
+  position: absolute;
+  top: 5px;
+  right: 5px;
   color: red;
 }
+
+/* show button when parent is hovered */
 .button-container:hover .hover-button {
   display: block;
 }
